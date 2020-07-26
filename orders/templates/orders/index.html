@@ -1,0 +1,398 @@
+{% extends "orders/base.html" %}
+
+{% block title%}
+    CS50Pizza
+{% endblock %}
+
+{% block content%}
+<div>
+    <div>
+        <h2 style="text-align: center;"> Pizza </h2>
+       <table class="table table-bordered">
+           <thead>
+            <tr>
+                <th>Pizza</th>
+                <th>Small</th>
+                <th>Large</th>
+            </tr>
+            </thead>
+            {% for pizza in pizzas %}
+                <tr>
+                    <td>{{ pizza.dish }} {{ pizza.pizza_type }} </td>
+                    <td> {{ pizza.price_small |floatformat:2 }} 
+                        <div class='pop-up'>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{pizza.id}}">
+                                Add to cart
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="{{pizza.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p style="text-align: center;"> {{ pizza.dish }} {{ pizza.pizza_type }} Small</p> <br>
+                                            <p style="text-align: center;"> {{ pizza.price_small |floatformat:2}}  </p>
+                                            {% with ''|center:pizza.Toppings as range %}
+                                            {% for c in  range %}
+                                            <form>
+                                                <select class="mdb-select md-form" searchable="Search here..">
+                                                    <option value="" disabled selected>Toppings</option>
+                                                    {% for top in toppings%}
+                                                    <option value="{{ top.topping }}">{{ top.topping }}</option>
+                                                    {% endfor%}
+                                                </select>
+                                            </form>
+                                            {% endfor%}
+                                            {% endwith%}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary add">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td> {{ pizza.price_large |floatformat:2 }} 
+                        <div class="pop-up">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{pizza.id}}l">
+                                Add to cart
+                            </button>
+                        
+                            <!-- Modal -->
+                            <div class="modal fade" id="{{pizza.id}}l" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p style="text-align: center;"> {{ pizza.dish }} {{ pizza.pizza_type }} Large </p> <br>
+                                            <p style="text-align: center;"> {{pizza.price_large|floatformat:2}} </p> <br>
+                                            {% with ''|center:pizza.Toppings as range %}
+                                            {% for c in  range %}
+                                                <form>
+                                                    <select class="mdb-select md-form" searchable="Search here..">
+                                                        <option value="" disabled selected>Toppings</option>
+                                                        {% for top in toppings%}
+                                                        <option value="{{ top.topping }}">{{ top.topping }}</option>
+                                                        {% endfor%}
+                                                        
+                                                    </select>
+                                                </form>
+                                            {% endfor%}
+                                            {% endwith%}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary add">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor%}
+       </table>
+    </div>
+    <div style="text-align: center;">
+        <h2>Toppings</h2>
+        {% for top in toppings %}
+            {{ top.topping }} <br>
+        {% endfor %}
+
+    </div>
+    <div>
+        <h2 style="text-align: center;"> Subs </h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Sub</th>
+                <th>Small</th>
+                <th>Large</th>
+            </tr>
+            </thead>
+            {% for sub in subs %}
+            <tr>
+                <td>{{ sub.sub_name }} </td>
+                <td> {{ sub.price_small|floatformat:2 }} 
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{sub.id}}sub">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{sub.id}}sub" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ sub.sub_name }} Small</p> <br>
+                                        <p style="text-align: center;"> {{ sub.price_small|floatformat:2}} </p>
+                                        <form>
+                                            <input type='checkbox' id="{{sub.id}}sub" class="check">
+                                            <label for="{{sub.id}}subl"> Chesse + 0.50 </label> <br>
+                                            {% if sub.sub_name == 'Steak' %}
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for="{{sub.id}}subl"> Mushrooms + 0.50 </label><br>
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for="{{sub.id}}subl"> Green Peppers + 0.50 </label><br>
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for="{{sub.id}}subl"> Onions + 0.50 </label>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td> {{ sub.price_large|floatformat:2 }} 
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{sub.id}}subl">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{sub.id}}subl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ sub.sub_name }} large</p> <br>
+                                        <p style="text-align: center;"> {{ sub.price_large|floatformat:2}} </p>
+                                        <form >
+                                            <input type='checkbox' id="{{sub.id}}subl" class="check" onchange="check(this)"> 
+                                            <label for="{{sub.id}}subl"> Chesse + 0.50 </label> <br>
+                                            {% if sub.sub_name == 'Steak' %}
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for=" {{sub.id}}subl"> Mushrooms + 0.50 </label><br>
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for=" {{sub.id}}subl"> Green Peppers + 0.50 </label><br>
+                                                <input type='checkbox' id="{{sub.id}}subl1" class="check" ">
+                                                <label for=" {{sub.id}}subl"> Onions + 0.50 </label>
+                                            {% endif %}
+                                        </form>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+    <div>
+        <h2 style="text-align: center;"> Dinner plate </h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>plate</th>
+                <th>Small</th>
+                <th>Large</th>
+            </tr>
+            </thead>
+            {% for plate in dinnerplatters %}
+            <tr>
+                <td>{{ plate.plate_name }} </td>
+                <td> {{ plate.price_small|floatformat:2 }} 
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{plate.id}}plate">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{plate.id}}plate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ plate.plate_name }} Small</p> <br>
+                                        <p style="text-align: center;"> {{ plate.price_small|floatformat:2}} </p>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td> {{ plate.price_large|floatformat:2 }} 
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{plate.id}}platel">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{plate.id}}platel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ plate.plate_name }} large</p> <br>
+                                        <p style="text-align: center;"> {{ plate.price_large|floatformat:2}} </p>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+
+    <div>
+        <h2 style="text-align: center;"> Pasta </h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>pasta</th>
+                <th>price</th>
+            </tr>
+            </thead>
+            {% for pasta in pastas %}
+            <tr>
+                <td>{{ pasta.pasta_name }} </td>
+                <td> {{ pasta.price|floatformat:2 }}
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{pasta.id}}pasta">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{pasta.id}}pasta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ pasta.pasta_name }} </p> <br>
+                                        <p style="text-align: center;"> {{ pasta.price|floatformat:2}} </p>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+
+    <div>
+        <h2 style="text-align: center;"> Salads </h2>
+        <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>salads</th>
+                <th>price</th>
+            </tr>
+        </thead>
+            {% for salad in salads %}
+            <tr>
+                <td>{{ salad.salad_name }} </td>
+                <td> {{ salad.price|floatformat:2 }}
+                    <div class='pop-up'>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#{{salad.id}}salad">
+                            Add to cart
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{salad.id}}salad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center;"> {{ salad.salad_name }} Small</p> <br>
+                                        <p style="text-align: center;"> {{ salad.price|floatformat:2}} </p>
+                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary add">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+    
+</div>
+{% endblock%}

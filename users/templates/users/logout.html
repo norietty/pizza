@@ -1,0 +1,15 @@
+{% extends "orders/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+CS50Pizza
+{% endblock %}
+
+{% block content%}
+    <h2>You've benn logged out </h2>
+    <div class="border-top pt-3">
+        <div>
+            Log back in <a href="{% url 'login' %}" class="ml-2">log in</a>
+        </div>
+    </div>
+{% endblock%}
